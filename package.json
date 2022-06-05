@@ -14,6 +14,7 @@
     "axios-hooks": "^3.1.0",
     "bootstrap": "^5.1.3",
     "next": "12.1.6",
+    "nextjs-progressbar": "0.0.14",
     "nextjs-redirect": "^6.0.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
