@@ -6,7 +6,7 @@ const useRemoteProfile = () => {
 
     const fetcher = (url) => fetch(url).then((res) => res.json());
 
-    const uri = email ? `http://localhost:5000/api/auth/me?email=${email}` : null;
+    const uri = email ? `https://api-validation-depdep.herokuapp.com/api/auth/me?email=${email}` : null;
     const { data, error, ...other } = useSWR(
         uri,
         fetcher

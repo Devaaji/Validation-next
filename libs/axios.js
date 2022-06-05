@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5000/api/',
+    baseURL: 'https://api-validation-depdep.herokuapp.com/api/',
 });
 
 export default axiosInstance;
