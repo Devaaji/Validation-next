@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import useSWR from 'swr';
+import useUserStore from '../../store/useUserStore';
 
 const useRemoteProfile = () => {
-    const email = typeof window !== 'undefined' ? localStorage.getItem('user') : null
+    const email = useUserStore((state) => state.email);
 
     const fetcher = (url) => fetch(url).then((res) => res.json());
 
-    const uri = email ? `https://api-validation-depdep.herokuapp.com/api/auth/me?email=${email}` : null;
+    const uri = email ? `https://api-validation-depdep.herokuapp.com/api/auth/me?email=${email}` : false;
     const { data, error, ...other } = useSWR(
         uri,
         fetcher

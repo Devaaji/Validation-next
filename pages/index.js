@@ -1,14 +1,17 @@
 import { useRouter } from 'next/router';
 import DashboardHomeGuest from '../components/DashboardHomeGuest';
 import useRemoteProfile from '../hooks/remote/useRemoteProfile'
+import useUserStore from '../store/useUserStore';
 
 export default function Home() {
   const router = useRouter();
   const { data: newProfile } = useRemoteProfile();
 
+  const removeUserStore = useUserStore((state) => state.removeUser)
+
   const handleButton = () => {
     if (typeof window !== "undefined") {
-      localStorage.removeItem('user');
+      removeUserStore()
       router.push('/login');
     }
   }

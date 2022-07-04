@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import useAxios from '../hooks/useAxios';
 import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
+import useUserStore from '../store/useUserStore';
+import { getServerSidePropsWithNoAuth } from '../utils/getServerSidePropsWithNoAuth';
 
 const signup = () => {
 
@@ -12,13 +14,15 @@ const signup = () => {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
+    const setLogin = useUserStore((state) => state.setLogin)
+
     const [, makeLogin] = useAxios({ url: '/auth/login', method: 'POST' }, { manual: true })
 
     const onSubmit = async (data) => {
         setIsLoading(true)
         try {
             await makeLogin({ data })
-            localStorage.setItem('user', (data.email))
+            setLogin(data.email)
             router.push('/');
             setIsLoading(false)
         } catch (error) {
@@ -28,7 +32,7 @@ const signup = () => {
 
         }
     };
-    
+
 
     useAuth();
     return (
@@ -50,12 +54,12 @@ const signup = () => {
                                     {/* Email input */}
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="form3Example3">Email address</label>
-                                        <input type="email" id="form3Example3" className="form-control"  {...register("email")} required/>
+                                        <input type="email" id="form3Example3" className="form-control"  {...register("email")} required />
                                     </div>
                                     {/* Password input */}
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="form3Example4">Password</label>
-                                        <input type="password" id="form3Example4" className="form-control"  {...register("password")} required/>
+                                        <input type="password" id="form3Example4" className="form-control"  {...register("password")} required />
                                     </div>
                                     {/* Checkbox */}
                                     <div className="form-check d-flex justify-content-center mb-4">
@@ -90,5 +94,7 @@ const signup = () => {
         </section>
     )
 }
+
+export const getServerSideProps = getServerSidePropsWithNoAuth;
 
 export default signup

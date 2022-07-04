@@ -5,6 +5,7 @@ import DahsboardTableRow from '../../components/DashboardTableRow';
 import useRemoteAllUsers from '../../hooks/remote/useRemoteAllUser';
 import useRemoteProfile from '../../hooks/remote/useRemoteProfile';
 import useAuthAdmin from '../../hooks/useAuthAdmin'
+import useUserStore from '../../store/useUserStore';
 
 const AdminPage = () => {
   const router = useRouter();
@@ -12,13 +13,15 @@ const AdminPage = () => {
   const { data } = useRemoteProfile();
   const { data: newData } = useRemoteAllUsers();
 
+  const removeUser = useUserStore((state) => state.removeUser)
+
   const handleButton = () => {
     if (typeof window !== "undefined") {
-      localStorage.removeItem('user');
+      removeUser()
       router.push('/login');
     }
   }
-  
+
 
   useAuthAdmin()
   return (
@@ -66,8 +69,8 @@ const AdminPage = () => {
               </tbody></table>
           </div>
         </div>
-      ) : 
-      <DashboardHomeGuest/>
+      ) :
+        <DashboardHomeGuest />
       }
     </>
   )
